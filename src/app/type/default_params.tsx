@@ -1,10 +1,11 @@
 export interface DefaultParams {
   page: string,
   limit: number,
-  archived: string,
+  archived: boolean,
   query?: string,
   sort?: string,
   order?: string,
-  qName?: string,
   status?: string,
+  type?: string,
+  qName?: string,
 }

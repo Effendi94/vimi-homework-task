@@ -57,10 +57,10 @@ const TableComponent = ({ data, isFetching, isLoading, selectedPage, setPage }: 
             </th>
           </tr>
         </thead>
-        {isLoading || isFetching ?
+        {isLoading || isFetching || !data ?
           <SkeletonTableComponent /> :
           <tbody>
-            {data.projects.map((project: IProject) => {
+            {data && data.projects.map((project: IProject) => {
               return (
                 <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700" key={project.id}>
                   <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

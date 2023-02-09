@@ -15,7 +15,7 @@ interface IDropdown {
 const DropdownComponent = ({ title, menus, selected, onChange }: IDropdown) => {
 
   return (
-    <div className="z-50 w-60 max-xl:w-full">
+    <div className=" w-60 max-xl:w-full">
       <Listbox value={selected} onChange={(e) => { onChange(e) }}>
         <div className="relative mt-5">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white 
