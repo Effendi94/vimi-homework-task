@@ -55,6 +55,7 @@ function App() {
     setSelectedSort(data);
   }
 
+  // catch any type event
   const onSubmit = (e: any) => {
     let text = e.target.value;
     if (e.key === 'Enter') {
