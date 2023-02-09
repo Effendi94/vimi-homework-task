@@ -10,7 +10,7 @@ const LabelFilterComponent = ({ active, toggleValue, title }: ILabelProps) => {
 
 
   return (
-    <div className={`relative pl-2 mr-2 mb-2 cursor-pointer ${active ? 'bg-blue-500 text-white' : 'bg-neutral-100 '}`}
+    <div className={`relative pl-2 mr-2 mb-2 cursor-pointer ${active ? 'bg-blue-500 hover:bg-blue-600 text-white' : 'bg-neutral-100 hover:bg-neutral-200 '}`}
       onClick={toggleValue}>
       <span className='capitalize pr-6 py-1'>{title}</span>
       <div className="absolute inset-y-0 right-0 flex items-center pr-1 pointer-events-none">
