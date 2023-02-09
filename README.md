@@ -6,6 +6,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm i`
+
+Installs any packages that it depends on.
+
+### `json-server databases/db.json -p 3031`
+
+Runs the fake full REST API on [http://localhost:3031](http://localhost:3031).
+
 ### `npm start`
 
 Runs the app in the development mode.\
