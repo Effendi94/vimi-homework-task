@@ -55,52 +55,57 @@ function App() {
     setSelectedSort(data);
   }
 
-  const handleSearch = (e: any) => {
+  const onSubmit = (e: any) => {
     let text = e.target.value;
     if (e.key === 'Enter') {
-      let labels: string[] = text.match(/\b(is:[a-z]+)\b/g);
-      if (labels != null && labels.length) {
-        // console.log(labels)
-        // let word = text.match(/(?!^is:)\b(\w+)\b(?=$)/);
-        // let word = text.match(/\b(?!.*:)\w+\b/g);
-        // word = word !== null ? word[0] : null;
-        // console.log(word)
-        labels.forEach(item => {
-          let label = listLabel.find(obj => obj.value === item);
-          console.log(label);
-          (label?.column === 'status') ? setQstatus(label?.text) : setQstatus('');
-          (label?.column === 'type') ? setQType(label?.text) : setQType('');
-          (label?.column === 'archieved') ? setArchieved(true) : setArchieved(false);
-        })
-        // setQName(word)
-      } else {
-        (text !== '') ?
-          setQName(text) : resetSearch();
-      }
-
+      handleSearch(text)
       return;
     };
   }
 
-  const resetSearch = () => {
-    console.log('reset')
-    setArchieved(false);
-    setQName('');
-    setQstatus('');
-    setQType('')
+  const handleSearch = (text: string) => {
+    let labels = text.match(/\b(is:[a-z]+)\b/g);
+    if (labels != null && labels.length) {
+      const pattern = /\b(\s\w+)\b$/;
+      const result = text.match(pattern);
+      let word = result !== null ? result[0] : null;
+      labels.forEach(item => {
+        let label = listLabel.find(obj => obj.value === item);
+        (label?.column === 'status') && setQstatus(label?.text);
+        (label?.column === 'type') && setQType(label?.text);
+        (label?.column === 'archieved') && setArchieved(true);
+      })
+      setQName(word ?? '')
+      setShowAdvancedSearch(false)
+    } else {
+      (text !== '') ?
+        setQName(text) : resetSearch();
+      setQstatus('');
+      setQType('');
+      setArchieved(false);
+    }
   }
 
-  const handleClearSearch = () => {
+  const resetSearch = () => {
     setSearchValue('')
     let tempLabels = labels.map(item => {
       return { ...item, active: false }
     });
-    resetSearch();
+    setArchieved(false);
+    setQName('');
+    setQstatus('');
+    setQType('')
     setLabels(tempLabels)
     setShowAdvancedSearch(false)
   }
 
-  const handleAdvancedSearch = (data: ILabelProps[]) => {
+  const toggleLabel = (index: number) => {
+    let tempLabels = [...labels];
+    tempLabels[index].active = !tempLabels[index].active
+    tempLabels[index].active ?
+      setSearchValue(`${searchValue} ${tempLabels[index].value}`) : setSearchValue(searchValue.replace(` ${tempLabels[index].value}`, ''));
+
+    setLabels(tempLabels)
   }
 
 
@@ -125,6 +130,7 @@ function App() {
     }
   );
 
+
   return (
     <div className='flex flex-col h-screen max-xl:h-full bg-gradient-to-tl from-green-400 to-blue-500 '>
       {isError &&
@@ -144,10 +150,15 @@ function App() {
           <div className='flex max-xl:flex-col space-x-3 justify-between items-center my-3'>
             <div className='grow w-full'>
               <SearchFilterComponent
-                onSubmit={handleSearch}
-                handleAdvancedSearch={handleAdvancedSearch}
-                listLabel={listLabel}
+                onSubmit={onSubmit}
+                listLabel={labels}
                 resetSearch={resetSearch}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                showAdvancedSearch={showAdvancedSearch}
+                setShowAdvancedSearch={setShowAdvancedSearch}
+                toggleLabel={toggleLabel}
+                handleSearch={handleSearch}
               />
             </div>
             <div className='self-end z-40'>
